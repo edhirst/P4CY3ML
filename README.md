@@ -4,6 +4,6 @@ The database of 5-vectors describing 4d weighted projective spaces which admit C
   
 How to run:  
 ~ Datasets available in the folder 'Data'.  
-~ Scripts avaialble in the respective investigation folders.  
+~ Scripts related to each investigation are specified.  
   
 ...to update
