@@ -32,7 +32,7 @@ with open('./Data/Coprime.txt','r') as f2:
 
 with open('./Data/Transverse.txt','r') as f3:
     Transverse = np.array(literal_eval(f3.read()))
-    8765
+
 del(f0,f_hodge,f1,f2,f3)
 
 ################################################################################
@@ -44,7 +44,7 @@ k = 5                   #...number of k-fold cross-validations to perform (k = 5
 if   investigation == 0: outputs = Hodge[:,0]
 elif investigation == 1: outputs = Hodge[:,1]
 elif investigation == 2: outputs = Hodge
-elif investigation == 3: outputs = np.array([-2*(h[0]-h[1]) for h in Hodge]) 
+elif investigation == 3: outputs = np.array([2*(h[0]-h[1]) for h in Hodge]) 
 
 #Zip input and output data together
 data_size = len(CY)
@@ -91,7 +91,7 @@ if investigation != 3: print('MAPE:',sum(MAPEs)/k,'\pm',np.std(MAPEs)/np.sqrt(k)
 ################################################################################
 '''Calabi-Yau Property'''
 #%% #Set-up investigation data
-nonCY_data = 2          #...choose which dataset to binary classify the CY data against from: [Random, Coprime, Transverse] with the respective index, or all the datasets with '-1'
+nonCY_data = 0          #...choose which dataset to binary classify the CY data against from: [Random, Coprime, Transverse] with the respective index, or all the datasets with '-1'
 k = 5                   #...number of k-fold cross-validations to perform (k = 5 => 80(train) : 20(test) splits approx.)
 
 #Zip input and selected output data together
@@ -116,7 +116,7 @@ for i in range(k):
 del(ML_data,i) #...zipped list no longer needed
 
 #%% #Run Classifier train & test
-ml_architecture = 1  #...choose architecture from: [Logistic Regressor, Support Vector Machine, Neural Network Classifier] with respective index
+ml_architecture = 0  #...choose architecture from: [Logistic Regressor, Support Vector Machine, Neural Network Classifier] with respective index
 Accs, MCCs = [], []  #...lists of classifier measures
 seed = 1             #...select a random seeding (any integer) for classifier initialisation
 
