@@ -27,7 +27,7 @@ scale_check = False #...select to prescale the data st all weights take their st
 kpca_check = False  #...select to use kernel-PCA with some non-linear kernel ('rbf' gaussian kernel given but can change inline) --> using kernel did not improve structure extraction
 
 #Choose dataset to PCA
-PCAData = Transverse    #...choose from: CY, Random, Coprime, Transverse
+PCAData = CY    #...choose from: CY, Random, Coprime, Transverse
 
 #PCA on data
 if kpca_check: pca = KernelPCA(n_components=5,kernel='rbf')
@@ -51,3 +51,21 @@ plt.ylabel('PCA component 2')
 plt.tight_layout()
 #plt.savefig('PCA_CY.pdf')
 
+
+#%% #Plot the PCA components against the Hodge numbers (to motvate the Hodge clustering)
+#Import Hodge numbers
+with open('./Data/Hodge.txt','r') as f_hodge:
+    Hodge = np.array(literal_eval(f_hodge.read()))
+del(f_hodge)
+
+#Select PCA component & Hodge number to plot
+PCA_compt = 1 #...select component to plot of decreasing variance for (0->4)
+hodge_num = 0 #...0 or 1 dependent on choice h11 or h21
+
+#Plot scatter graph across CY dataset
+plt.figure('PCA-Hodge Correlations')
+plt.scatter(pcad_data[:,PCA_compt],Hodge[:,hodge_num],alpha=0.1)
+plt.xlabel(r'PCA component '+str(PCA_compt))
+plt.ylabel(r'$h^{1,1}$')
+plt.tight_layout()
+plt.grid()
