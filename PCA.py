@@ -19,6 +19,7 @@ with open('./Data/Coprime.txt','r') as f2:
 
 with open('./Data/Transverse.txt','r') as f3:
     Transverse = np.array(literal_eval(f3.read()))
+    
 del(f0,f1,f2,f3)
 
 #%% #Perform 2d PCA on selected dataset
@@ -30,7 +31,7 @@ kpca_check = False  #...select to use kernel-PCA with some non-linear kernel ('r
 PCAData = CY    #...choose from: CY, Random, Coprime, Transverse
 
 #PCA on data
-if kpca_check: pca = KernelPCA(n_components=5,kernel='rbf')
+if kpca_check: pca = KernelPCA(n_components=5,kernel='rbf') #...specify kernel used
 else:          pca = PCA(n_components=5)
 if scale_check:
     scaler = StandardScaler()
@@ -51,8 +52,7 @@ plt.ylabel('PCA component 2')
 plt.tight_layout()
 #plt.savefig('PCA_CY.pdf')
 
-
-#%% #Plot the PCA components against the Hodge numbers (to motvate the Hodge clustering)
+#%% #Plot the PCA components against the Hodge numbers (to motivate the Hodge clustering)
 #Import Hodge numbers
 with open('./Data/Hodge.txt','r') as f_hodge:
     Hodge = np.array(literal_eval(f_hodge.read()))

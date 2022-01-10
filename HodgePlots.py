@@ -157,7 +157,7 @@ else:
 transformed_full_data = kmeans.transform(all_ratio_data)                  #...data transformed to list distance to all centres
 kmeans_labels = np.argmin(transformed_full_data,axis=1)                   #...identify the closest cluster centre to each datapoint
 full_data_inertia = np.sum([min(x)**2 for x in transformed_full_data])    #...compute the inertia over the full dataset
-cluster_sizes = Counter(kmeans_labels)                               #...compute the frequencies in each cluster
+cluster_sizes = Counter(kmeans_labels)                                    #...compute the frequencies in each cluster
 print('\nCluster Centres: '+str(kmeans.cluster_centers_.flatten())+'\nCluster sizes: '+str([cluster_sizes[x] for x in range(10)])+'\n\nInertia: '+str(full_data_inertia)+'\nNormalised Inertia: '+str(full_data_inertia/7555)+'\nNormalised Inertia / range: '+str((full_data_inertia/(7555*(max(all_ratio_data)-min(all_ratio_data))))[0]))
 
 #%% #Plot full data with cluster centre lines overlaid

@@ -1,4 +1,4 @@
-'''Data generation'''
+'''Data Generation'''
 #Import libraries
 import numpy as np
 from scipy.stats import expon
@@ -156,7 +156,7 @@ while len(Transverse) < len(CY):
     Transverse.append(trial)
 Transverse = np.array(Transverse)
 del(trial,vec)
-###Note: the transverse condition is very rare for uniform sampling, so could not feasibly generated
+###Note: the transverse condition is very rare for uniform sampling, so could not be feasibly generated
 
 #%% #Write Transverse data to a file
 with open('./Transverse.txt','w') as file:
@@ -168,7 +168,7 @@ with open('./Data/Transverse.txt','r') as f3:
     Transverse = np.array(literal_eval(f3.read()))
 del(f3)
 
-#%% #Plot histogram of random integer entries
+#%% #Plot histogram of transverse integer entries
 TransverseWeightHistograms = [np.unique(Transverse[:,i],return_counts=True) for i in range(5)]
 
 plt.figure('Transverse Weights Frequency Dist.')

@@ -20,10 +20,6 @@ from sklearn.metrics import matthews_corrcoef as MCC
 with open('./Data/CY.txt','r') as f0:
     CY = np.array(literal_eval(f0.read()))
     
-#Import Hodge numbers
-with open('./Data/Hodge.txt','r') as f_hodge:
-    Hodge = np.array(literal_eval(f_hodge.read()))
-    
 with open('./Data/Random.txt','r') as f1:
     Random = np.array(literal_eval(f1.read()))
 
@@ -32,8 +28,13 @@ with open('./Data/Coprime.txt','r') as f2:
 
 with open('./Data/Transverse.txt','r') as f3:
     Transverse = np.array(literal_eval(f3.read()))
+    
+#Import Hodge numbers
+with open('./Data/Hodge.txt','r') as f_hodge:
+    Hodge = np.array(literal_eval(f_hodge.read()))
+    
+del(f0,f1,f2,f3,f_hodge)
 
-del(f0,f_hodge,f1,f2,f3)
 
 ################################################################################
 '''Topological Properties'''
@@ -54,7 +55,7 @@ ML_data = [[CY[index],outputs[index]] for index in range(data_size)]
 np.random.shuffle(ML_data)
 s = int(floor(data_size/k)) #...number of datapoints in each validation split
 
-#Define data lists, each with k sublists witht he relevant data for that cross-validation run
+#Define data lists, each with k sublists with the relevant data for that cross-validation run
 Train_inputs, Train_outputs, Test_inputs, Test_outputs = [], [], [], []
 for i in range(k):
     Train_inputs.append([datapoint[0] for datapoint in ML_data[:i*s]]+[datapoint[0] for datapoint in ML_data[(i+1)*s:]])
@@ -87,6 +88,7 @@ print('Average Measures (investigation '+str(investigation)+'):')
 print('R^2: ',sum(Rsqs)/k,'\pm',np.std(Rsqs)/np.sqrt(k))
 print('MSE: ',sum(MSEs)/k,'\pm',np.std(MSEs)/np.sqrt(k))
 if investigation != 3: print('MAPE:',sum(MAPEs)/k,'\pm',np.std(MAPEs)/np.sqrt(k))
+
 
 ################################################################################
 '''Calabi-Yau Property'''
@@ -138,6 +140,7 @@ print('\n####################################')
 print('Average Measures (data '+str(nonCY_data)+', with architecture '+str(ml_architecture)+'):')
 print('Accuracy: ',sum(Accs)/k,'\pm',np.std(Accs)/np.sqrt(k))
 print('MCC:      ',sum(MCCs)/k,'\pm',np.std(MCCs)/np.sqrt(k))
+
 
 ################################################################################
 '''Misclassification Analysis'''
@@ -192,13 +195,14 @@ plt.grid()
 plt.tight_layout()
 #plt.savefig('./LRRandom_Misclass().pdf')
 
+
 ################################################################################
 '''Calabi-Yau Property with Hodge binning'''
 #%% #Predict CY vs non-CY using LR trained on data partitioned by hodge #s (note no cross-validation here)
 nonCY_data = Transverse     #...choose which dataset to binary classify the CY data against from: [Random, Coprime, Transverse]
-h21_check = 0           #...set to 0 to use h11, set to 1 to use h21
-n = 20                  #...number of runs to average over
-number_bins = 50        #...set the number of bins
+h21_check = 0               #...set to 0 to use h11, set to 1 to use h21
+n = 20                      #...number of runs to average over
+number_bins = 50            #...set the number of bins
 
 #Set-up output lists & partitioning bins
 Weights, Accuracies = [], []
@@ -246,7 +250,7 @@ Weights_avg = [[np.mean([Weights[exp][hbin][weight] for exp in range(n)]) for we
 Weights_var = [[np.var([Weights[exp][hbin][weight] for exp in range(n)]) for weight in range(len(CY[0]))] for hbin in  range(len(partition_bins)-1)]
 #print(Accuracies_avg,'\n\n',Weights_avg)
 
-#%% #Plotting of experiment: accuracies, frequencies, weights
+#%% #Plotting of experiment: frequencies, accuracies, weights
 #partition_bin_midpoints = (np.array(partition_bins[1:])+np.array(partition_bins[:-1]))/2
 x_labels = ['$h^{1,1}$','$h^{2,1}$']
 save_labels = ['h11','h21']
